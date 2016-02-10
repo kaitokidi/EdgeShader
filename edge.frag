@@ -25,10 +25,11 @@ void main(void)
 	);	
     vec4 sample[9];
 
+	float size = 512.0;
     for (int i = 0; i < 9; i++)
     {
         sample[i] = texture2D(textureImage, 
-                              gl_TexCoord[0].st + offset[i]);
+                              gl_TexCoord[0].st + (offset[i]/size));
     }
 
     gl_FragColor = (  sample[0]*sobel[0]
@@ -40,5 +41,5 @@ void main(void)
 					+ sample[6]*sobel[6]
 					+ sample[7]*sobel[7]
 					+ sample[8]*sobel[8] )/9;
-if(sample[0] == sample[6]) gl_FragColor = vec4(0,1,0,1);
+//if(sample[0] == sample[6]) gl_FragColor = vec4(0,1,0,1);
 }
