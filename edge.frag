@@ -51,7 +51,7 @@ void main(void) {
     }
 
     for (int i = 0; i < 9; i++) {
-        graySample[i] = sample[i]*toLum;
+        graySample[i] = dot(sample[i],toLum);
     }	
 
 	float sobelValue = 0.0;
