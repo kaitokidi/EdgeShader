@@ -4,6 +4,7 @@ uniform float sizeX;
 uniform float sizeY;
 uniform float size;
 uniform vec2 light;
+uniform int rotate;
 uniform vec2 object;
 uniform float windowSize;
 uniform sampler2D textureImage;
@@ -25,15 +26,31 @@ void main(void) {
 		vec2(-1,-1), vec2(0,-1), vec2(1,-1)
 	);
 
-	float sobel[9] = float[](
+	float sobeld[9] = float[](
    		 1.0,  2.0,  1.0, 
    		 0.0,  0.0,  0.0, 
    		 -1.0, -2.0,  -1.0  
-	);	
-
-	float toLuminance [4] = float[](
-		0.2126, 0.7152, 0.02722, 0.0
 	);
+	float sobelu[9] = float[](
+   		-1.0, -2.0, -1.0, 
+   		 0.0,  0.0,  0.0, 
+   		 1.0,  2.0,  1.0  
+	);
+	float sobell[9] = float[](
+   		 -1.0,  0.0,  1.0, 
+   		 -2.0,  0.0,  2.0, 
+   		 -1.0,  0.0,  1.0  
+	);
+	float sobelr[9] = float[](
+   		 1.0,  0.0, -1.0, 
+   		 2.0,  0.0, -2.0, 
+   		 1.0,  0.0, -1.0  
+	);
+
+	float sobel[9]= sobeld;
+	if(rotate == 2) sobel = sobelu;
+	else if(rotate == 1) sobel = sobell;
+	else if(rotate == 3) sobel = sobelr;
 
 	vec4 toLum;
     toLum.r = 0.2126;
@@ -44,20 +61,13 @@ void main(void) {
     vec4 sample[9];
 	float graySample[9];
 
-	//float size = 512.0;
+	float sobelValue = 0.0;
     for (int i = 0; i < 9; i++) {
         sample[i] = texture2D(textureImage, 
                               gl_TexCoord[0].st + (offset[i]/size));
-    }
-
-    for (int i = 0; i < 9; i++) {
         graySample[i] = dot(sample[i],toLum);
-    }	
-
-	float sobelValue = 0.0;
-    for (int i = 0; i < 9; i++) {
         sobelValue = sobelValue + graySample[i]*sobel[i];
-    }	
+    }
 
 	gl_FragColor = vec4( 
 					sample[5].r - sobelValue,
