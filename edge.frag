@@ -26,31 +26,26 @@ void main(void) {
 		vec2(-1,-1), vec2(0,-1), vec2(1,-1)
 	);
 
-	float sobeld[9] = float[](
+	float sobel[9] = float[]( //u
    		 1.0,  2.0,  1.0, 
    		 0.0,  0.0,  0.0, 
    		 -1.0, -2.0,  -1.0  
 	);
-	float sobelu[9] = float[](
-   		-1.0, -2.0, -1.0, 
-   		 0.0,  0.0,  0.0, 
-   		 1.0,  2.0,  1.0  
-	);
-	float sobell[9] = float[](
+	if(rotate == 1) sobel = float[]( //l
    		 -1.0,  0.0,  1.0, 
    		 -2.0,  0.0,  2.0, 
    		 -1.0,  0.0,  1.0  
 	);
-	float sobelr[9] = float[](
+	else if(rotate == 2) sobel = float[]( //d
+   		-1.0, -2.0, -1.0, 
+   		 0.0,  0.0,  0.0, 
+   		 1.0,  2.0,  1.0  
+	);
+	else if(rotate == 3) sobel = float[]( //r
    		 1.0,  0.0, -1.0, 
    		 2.0,  0.0, -2.0, 
    		 1.0,  0.0, -1.0  
 	);
-
-	float sobel[9]= sobeld;
-	if(rotate == 2) sobel = sobelu;
-	else if(rotate == 1) sobel = sobell;
-	else if(rotate == 3) sobel = sobelr;
 
 	vec4 toLum;
     toLum.r = 0.2126;
