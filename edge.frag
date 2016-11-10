@@ -26,25 +26,16 @@ void main(void) {
 
 	float sobel[9];
 
-	if(rotate == 1) sobel = float[]( //l
-   		 -1.0,  0.0,  1.0, 
-   		 -2.0,  0.0,  2.0, 
-   		 -1.0,  0.0,  1.0  
-	);
-	else if(rotate == 2) sobel = float[]( //d
-   		-1.0, -2.0, -1.0, 
-   		 0.0,  0.0,  0.0, 
-   		 1.0,  2.0,  1.0  
-	);
-	else if(rotate == 3) sobel = float[]( //r
-   		 1.0,  0.0, -1.0, 
-   		 2.0,  0.0, -2.0, 
-   		 1.0,  0.0, -1.0  
-	);
-	else sobel = float[]( //u
+	mat3 sob ( 
    		 1.0,  2.0,  1.0, 
    		 0.0,  0.0,  0.0, 
    		 -1.0, -2.0,  -1.0  
+	);
+
+	mat3 rot (
+		cos(rotate), -sin(rotate), 0.0,
+		sin(rotate), cos(rotate), 0.0,
+		0.0		   , 0.0		, 0.0
 	);
 
 	vec4 toLum;
