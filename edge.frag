@@ -18,19 +18,14 @@ void main(void) {
 	l.x = light.x; l.x = 1.1;
 	l.y = light.y; l.y = 1.1;
 
-	
-//windowsize would better be an odd number bigger than 3
     vec2 offset[9] = vec2[] (
 		vec2(-1, 1), vec2(0, 1), vec2(1, 1),
 		vec2(-1, 0), vec2(0, 0), vec2(1, 0),
 		vec2(-1,-1), vec2(0,-1), vec2(1,-1)
 	);
 
-	float sobel[9] = float[]( //u
-   		 1.0,  2.0,  1.0, 
-   		 0.0,  0.0,  0.0, 
-   		 -1.0, -2.0,  -1.0  
-	);
+	float sobel[9];
+
 	if(rotate == 1) sobel = float[]( //l
    		 -1.0,  0.0,  1.0, 
    		 -2.0,  0.0,  2.0, 
@@ -45,6 +40,11 @@ void main(void) {
    		 1.0,  0.0, -1.0, 
    		 2.0,  0.0, -2.0, 
    		 1.0,  0.0, -1.0  
+	);
+	else sobel = float[]( //u
+   		 1.0,  2.0,  1.0, 
+   		 0.0,  0.0,  0.0, 
+   		 -1.0, -2.0,  -1.0  
 	);
 
 	vec4 toLum;
