@@ -4,7 +4,7 @@ uniform float sizeX;
 uniform float sizeY;
 uniform float size;
 uniform vec2 light;
-uniform int rotate;
+uniform float rotate;
 uniform vec2 object;
 uniform float windowSize;
 uniform sampler2D textureImage;
@@ -26,17 +26,30 @@ void main(void) {
 
 	float sobel[9];
 
-	mat3 sob ( 
+	mat3 sob = mat3( 
    		 1.0,  2.0,  1.0, 
    		 0.0,  0.0,  0.0, 
    		 -1.0, -2.0,  -1.0  
 	);
 
-	mat3 rot (
-		cos(rotate), -sin(rotate), 0.0,
-		sin(rotate), cos(rotate), 0.0,
-		0.0		   , 0.0		, 0.0
+	float rotation = rotate * 0.0174532925;
+	mat3 rot = mat3(
+		cos(rotation), sin(rotation), 0.0,
+		-sin(rotation), cos(rotation), 0.0,
+		0.0		   , 0.0		, 1.0
 	);
+
+	sob = rot*sob;
+
+	sobel[0] = sob[0][0];
+	sobel[1] = sob[0][1];
+	sobel[2] = sob[0][2];
+	sobel[3] = sob[1][0];
+	sobel[4] = sob[1][1];
+	sobel[5] = sob[1][2];
+	sobel[6] = sob[2][0];
+	sobel[7] = sob[2][1];
+	sobel[8] = sob[2][2];
 
 	vec4 toLum;
     toLum.r = 0.2126;
