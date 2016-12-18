@@ -54,9 +54,9 @@ if (!shader.loadFromFile("txader.frag", sf::Shader::Fragment))
 	sf::Texture pTexture, tbackground;
 
 	//LOAD IMAGES AND TEXTURES
-	if(!image.loadFromFile("pics/ground.png")) std::cout << "ground Image Not Loaded " << std::endl;
+	if(!image.loadFromFile("ground.png")) std::cout << "ground Image Not Loaded " << std::endl;
 	if(!tbackground.loadFromImage(image)) std::cout << "background texture Not Loaded " << std::endl;
-	if(!pTexture.loadFromFile("pics/sprites.png")) std::cout << "personatge Not Loaded " << std::endl;
+	if(!pTexture.loadFromFile("sprites.png")) std::cout << "personatge Not Loaded " << std::endl;
 	spriteSize.x = originalSpriteSize.x = pTexture.getSize().x/4;
 	spriteSize.y = originalSpriteSize.y = pTexture.getSize().y/4;
 
@@ -113,7 +113,7 @@ if (!shader.loadFromFile("txader.frag", sf::Shader::Fragment))
 					//Change to the secondary skin
 					if(event.key.code == sf::Keyboard::C) {
 						fly = false;
-						if(!pTexture.loadFromFile("pics/capa.png")) std::cout << "capa Not Loaded " << std::endl;
+						if(!pTexture.loadFromFile("capa.png")) std::cout << "capa Not Loaded " << std::endl;
 							spriteSize.x = pTexture.getSize().x/4;
 							spriteSize.y = pTexture.getSize().y/4;
 							distx = spriteSize.x/3, disty = spriteSize.y/4;
@@ -121,7 +121,7 @@ if (!shader.loadFromFile("txader.frag", sf::Shader::Fragment))
 					//Change to original skin
 					if(event.key.code == sf::Keyboard::P) {
 						fly = false;
-						if(!pTexture.loadFromFile("pics/sprites.png")) std::cout << "personatge Not Loaded " << std::endl;
+						if(!pTexture.loadFromFile("sprites.png")) std::cout << "personatge Not Loaded " << std::endl;
 							spriteSize.x = pTexture.getSize().x/4;
 							spriteSize.y = pTexture.getSize().y/4;
 							distx = spriteSize.x/3, disty = spriteSize.y/4;
@@ -133,7 +133,7 @@ if (!shader.loadFromFile("txader.frag", sf::Shader::Fragment))
 					if(event.key.code == sf::Keyboard::F) {
 						if(fly) fly = false;
 						else fly = true;
-						if(!pTexture.loadFromFile("pics/real.png")) std::cout << "real Not Loaded " << std::endl;
+						if(!pTexture.loadFromFile("real.png")) std::cout << "real Not Loaded " << std::endl;
 							spriteSize.x = pTexture.getSize().x/4;
 							spriteSize.y = pTexture.getSize().y/4;
 							distx = spriteSize.x/3, disty = spriteSize.y/4; 
@@ -180,16 +180,6 @@ if (!shader.loadFromFile("txader.frag", sf::Shader::Fragment))
 	            else if(mouse_x < window.getSize().x/3) d =  left;
 	            else if(mouse_y < window.getSize().y/2) d =    up;
 	            else if(mouse_y > window.getSize().y/2) d =  down;
-                
-                /*sf::Vector2i position = sf::Mouse::getPosition(window);
-                position.y += view.getCenter().y-view.getSize().y/2;        
-                sf::Vector2f centre = sf::Vector2f(playerPosition.x, playerPosition.y-spriteSize.y/2);
-                float angle = getAngle(centre, position);
-                 if(angle < 0) angle = 360 + angle;
-                if( angle > 45 && angle <= 135) d = down;
-                else if( angle > 135 && angle <= 225) d = left;
-                else if( angle > 225 && angle <= 315) d = up;
-                else d = right;*/
 	        }
 	        //By keyboard
 		if(sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) 	d = up;
