@@ -1,12 +1,7 @@
 // fragment shader
 #version 120
-uniform float sizeX;
-uniform float sizeY;
 uniform float size;
-uniform vec2 light;
 uniform int rotate;
-uniform vec2 object;
-uniform float windowSize;
 uniform sampler2D textureImage;
 
 struct myMatrix{
@@ -1820,11 +1815,11 @@ myMatrix(
 void main(void) {
 
 	vec2 o;
-	o.x = object.x; o.x = 0.0;
-	o.y = object.y; o.y = 0.0;
+	o.x = 0.0;
+	o.y = 0.0;
 	vec2 l;
-	l.x = light.x; l.x = 1.1;
-	l.y = light.y; l.y = 1.1;
+	l.x = 1.1;
+	l.y = 1.1;
 
 	
 //windowsize would better be an odd number bigger than 3
