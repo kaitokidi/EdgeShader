@@ -1,11 +1,11 @@
 // fragment shader
 #version 120
 uniform float size;
-uniform int rotate;
+uniform float rotate;
 uniform sampler2D textureImage;
 
 struct myMatrix{
-	float first, s, t, f, fi, si, se, e, n;
+    float first, s, t, f, fi, si, se, e, n;
 };
 
 const myMatrix matrices[360] = myMatrix[360](
@@ -1814,48 +1814,49 @@ myMatrix(
 
 void main(void) {
 
-	vec2 o;
-	o.x = 0.0;
-	o.y = 0.0;
-	vec2 l;
-	l.x = 1.1;
-	l.y = 1.1;
+    vec2 o;
+    o.x = 0.0;
+    o.y = 0.0;
+    vec2 l;
+    l.x = 1.1;
+    l.y = 1.1;
 
-	
+    
 //windowsize would better be an odd number bigger than 3
     vec2 offset[9] = vec2[] (
-		vec2(-1, 1), vec2(0, 1), vec2(1, 1),
-		vec2(-1, 0), vec2(0, 0), vec2(1, 0),
-		vec2(-1,-1), vec2(0,-1), vec2(1,-1)
-	);
+        vec2(-1, 1), vec2(0, 1), vec2(1, 1),
+        vec2(-1, 0), vec2(0, 0), vec2(1, 0),
+        vec2(-1,-1), vec2(0,-1), vec2(1,-1)
+    );
 
-	float sobel[9] = float[]( //u
-   		 1.0,  2.0,  1.0, 
-   		 0.0,  0.0,  0.0, 
-   		 -1.0, -2.0,  -1.0  
-	);
+    float sobel[9] = float[]( //u
+         1.0,  2.0,  1.0, 
+         0.0,  0.0,  0.0, 
+         -1.0, -2.0,  -1.0  
+    );
 
-	myMatrix auxiliarMatrix = matrices[rotate];
-	sobel[0] = auxiliarMatrix.first; 
-	sobel[1] = auxiliarMatrix.s;
-	sobel[2] = auxiliarMatrix.t;	
-	sobel[3] = auxiliarMatrix.f;
-	sobel[4] = auxiliarMatrix.fi; 
-	sobel[5] = auxiliarMatrix.si; 
-	sobel[6] = auxiliarMatrix.se; 
-	sobel[7] = auxiliarMatrix.e;
-	sobel[8] = auxiliarMatrix.n;
+    
+    myMatrix auxiliarMatrix = matrices[int(rotate)];
+    sobel[0] = auxiliarMatrix.first; 
+    sobel[1] = auxiliarMatrix.s;
+    sobel[2] = auxiliarMatrix.t;    
+    sobel[3] = auxiliarMatrix.f;
+    sobel[4] = auxiliarMatrix.fi; 
+    sobel[5] = auxiliarMatrix.si; 
+    sobel[6] = auxiliarMatrix.se; 
+    sobel[7] = auxiliarMatrix.e;
+    sobel[8] = auxiliarMatrix.n;
 
-	vec4 toLum;
+    vec4 toLum;
     toLum.r = 0.2126;
-	toLum.g = 0.7152;
-	toLum.b = 0.02722;
-	toLum.a = 0.0;
+    toLum.g = 0.7152;
+    toLum.b = 0.02722;
+    toLum.a = 0.0;
 
     vec4 sample[9];
-	float graySample[9];
+    float graySample[9];
 
-	float sobelValue = 0.0;
+    float sobelValue = 0.0;
     for (int i = 0; i < 9; i++) {
         sample[i] = texture2D(textureImage, 
                               gl_TexCoord[0].st + (offset[i]/size));
@@ -1863,11 +1864,10 @@ void main(void) {
         sobelValue = sobelValue + graySample[i]*sobel[i];
     }
 
-	gl_FragColor = vec4( 
-					sample[5].r - sobelValue,
-					sample[5].g - sobelValue,
-					sample[5].b - sobelValue,
-					0);
+    gl_FragColor = vec4( 
+                    sample[5].r - sobelValue,
+                    sample[5].g - sobelValue,
+                    sample[5].b - sobelValue,
+                    1);
 
-//if(sample[0] == sample[6]) gl_FragColor = vec4(0,1,0,1);
 }
