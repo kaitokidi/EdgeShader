@@ -4,10 +4,10 @@
 #include <cmath>
 
 bool isWhite(sf::Image& image, float px, float py){
-	return image.getPixel(px, py) == sf::Color::White;
+	return image.getPixel(px, py) == sf::Color::Black;
 }
 
-float getAngle(sf::Vector2f &orig, sf::Vector2i &des) {
+float getAngle(sf::Vector2f orig, sf::Vector2i des) {
     return std::atan2(des.y - orig.y, des.x - orig.x)*180/(M_PI);
 }
 
@@ -60,6 +60,15 @@ if (!shader.loadFromFile("txader.frag", sf::Shader::Fragment))
 	spriteSize.x = originalSpriteSize.x = pTexture.getSize().x/4;
 	spriteSize.y = originalSpriteSize.y = pTexture.getSize().y/4;
 
+    sf::Sprite light; 
+        sf::Texture lightTexture;
+        lightTexture.loadFromFile("light.png");
+        light.setTexture(lightTexture);
+        light.setScale(2,2);
+        light.setOrigin(light.getLocalBounds().width/2, light.getLocalBounds().height/2);
+    sf::Sprite player2;
+    player2.setTexture(pTexture);
+        
 	//VARIABLES	
 	direction d = none;
 	double 	escalat = 1;
@@ -236,11 +245,18 @@ if (!shader.loadFromFile("txader.frag", sf::Shader::Fragment))
 
 		//Set player properties (some are unnecessary but is useful in case there are changes i.e. the screen changes)
 		player.setOrigin(spriteSize.x/2, spriteSize.y);
-		player.setPosition(playerPosition.x, playerPosition.y);
-		player.setTextureRect(sf::IntRect(spriteSource.x*spriteSize.x, 
-			spriteSource.y*spriteSize.y, spriteSize.x, spriteSize.y));
-		player.setScale(window.getSize().x/600.0, window.getSize().x/600.0);
-		player.scale(originalSpriteSize.x/spriteSize.x, originalSpriteSize.y/spriteSize.y);
+        player.setPosition(playerPosition.x, playerPosition.y);
+        player.setTextureRect(sf::IntRect(spriteSource.x*spriteSize.x, 
+            spriteSource.y*spriteSize.y, spriteSize.x, spriteSize.y));
+        player.setScale(window.getSize().x/100.0, window.getSize().x/100.0);
+        player.scale(originalSpriteSize.x/spriteSize.x, originalSpriteSize.y/spriteSize.y);
+
+        player2.setOrigin(spriteSize.x/2, spriteSize.y);
+        player2.setPosition(playerPosition.x+300, playerPosition.y);
+        player2.setTextureRect(sf::IntRect(spriteSource.x*spriteSize.x, 
+            spriteSource.y*spriteSize.y, spriteSize.x, spriteSize.y));
+        player2.setScale(window.getSize().x/100.0, window.getSize().x/100.0);
+        player2.scale(originalSpriteSize.x/spriteSize.x, originalSpriteSize.y/spriteSize.y);
 
 		//Set background scale
 		escalat = (double)(view.getSize().x) / (double)(tbackground.getSize().x);
@@ -255,17 +271,29 @@ if (!shader.loadFromFile("txader.frag", sf::Shader::Fragment))
 		viewPosition.x = view.getSize().x/2;
 		view.setCenter(viewPosition);
 		view.setViewport(sf::FloatRect(0,0,1.0f,1.0f));
-
+        
+        float angle = float(int(time*30)%360);
+        light.setPosition(player.getPosition().x + std::sin(-angle*0.017453292)*200,
+                          player.getPosition().y-player.getGlobalBounds().height/2 - std::cos(-angle*0.017453292)*200); 
 		//Set window view, draw and display
 		window.setView(view);
 		window.draw(background);
-
-        if(time>36) time = 0;
+        
 shader.setParameter("size", 300);
-shader.setParameter("rotate", time*30);
+shader.setParameter("rotate", angle);
 shader.setParameter("textureImage", sf::Shader::CurrentTexture);
+        window.draw(player, &shader);
 
-		window.draw(player, &shader);
+        float angle2 = getAngle(sf::Vector2f(player2.getPosition().x,player2.getPosition().y), 
+                                sf::Vector2i(light.getPosition().x,light.getPosition().y));
+        
+
+/*shader.setParameter("size", 300);
+shader.setParameter("rotate", angle2);
+shader.setParameter("textureImage", sf::Shader::CurrentTexture);*/
+        window.draw(player2);
+        
+        window.draw(light);
 		window.display();
 	}
 }

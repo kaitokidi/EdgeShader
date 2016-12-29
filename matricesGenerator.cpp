@@ -5,6 +5,7 @@
 
 #define SQRT2 1.414213562
 #define zero 0.f
+#define STEPS 10
 #define PI_DIV_180 0.01745329252
 
 class Point {
@@ -191,6 +192,8 @@ int main(){
     ),
     */
 //            std::cout << "angle: " << i << " :" << std::endl;
+if(i % STEPS == 0)
+{
             std::cout << "myMatrix( " << std::endl;
             for(int a = 0; a < matrixes[i].size(); ++a){
                 for(int b = 0; b < matrixes[i][a].size(); ++b){
@@ -209,7 +212,7 @@ int main(){
                 std::cout << std::endl;
             }
             std::cout << "), " << std::endl;
-        
+}       
 //            std::cout << "------------------------------------" << std::endl;
         //}
     }
